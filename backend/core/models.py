@@ -32,8 +32,8 @@ class Student(Base):
     parent_phone = Column(String)
     admission_date = Column(DateTime, default=datetime.utcnow)
     user = relationship("User", back_populates="student_profile")
-    attendances = relationship("Attendance", back_populates="student")
-    grades = relationship("Grade", back_populates="student")
+    attendances = relationship("Attendance", back_populates="student", cascade="all, delete")
+    grades = relationship("Grade", back_populates="student", cascade="all, delete")
 
 class Teacher(Base):
     __tablename__ = "teachers"
@@ -53,7 +53,6 @@ class Subject(Base):
     code = Column(String, unique=True, index=True)
     teacher_id = Column(Integer, ForeignKey("teachers.id"))
     teacher = relationship("Teacher", back_populates="subjects")
-    grades = relationship("Grade", back_populates="subject")
 
 class Attendance(Base):
     __tablename__ = "attendances"
@@ -68,13 +67,12 @@ class Grade(Base):
     __tablename__ = "grades"
     id = Column(Integer, primary_key=True, index=True)
     student_id = Column(Integer, ForeignKey("students.id"))
-    subject_id = Column(Integer, ForeignKey("subjects.id"))
+    subject = Column(String)
     marks_obtained = Column(Float)
     total_marks = Column(Float)
     exam_type = Column(String)
     date = Column(DateTime, default=datetime.utcnow)
     student = relationship("Student", back_populates="grades")
-    subject = relationship("Subject", back_populates="grades")
 
 class Notice(Base):
     __tablename__ = "notices"
