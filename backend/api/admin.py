@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from core.database import get_db
-from core.models import User
+from core.models import User, Student, Teacher, Notice, Grade, Attendance
 from core.security import require_role
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
@@ -20,3 +20,18 @@ async def delete_user(user_id: int, current_user: User = Depends(require_role(["
     db.delete(user)
     db.commit()
     return {"message": "User deleted"}
+
+@router.get("/stats")
+async def get_stats(current_user: User = Depends(require_role(["admin"])), db: Session = Depends(get_db)):
+    return {
+        "total_students": db.query(Student).count(),
+        "total_teachers": db.query(Teacher).count(),
+        "total_notices": db.query(Notice).count(),
+        "total_grades": db.query(Grade).count(),
+        "total_attendance": db.query(Attendance).count(),
+        "total_users": db.query(User).count(),
+    }
+
+@router.get("/teachers")
+async def get_all_teachers(current_user: User = Depends(require_role(["admin"])), db: Session = Depends(get_db)):
+    return db.query(Teacher).all()
