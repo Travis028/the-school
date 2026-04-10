@@ -127,6 +127,27 @@ const Login = () => {
               <Link to="/" className="hover:text-gray-600 transition">Back to school website</Link>
             </p>
           </div>
+
+          <div className="mt-6 border border-gray-200 bg-gray-50 p-4">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Demo Credentials</p>
+            <div className="space-y-1">
+              {[
+                { role: 'Admin', username: 'admin', password: 'admin123' },
+                { role: 'Teacher', username: 'teacher', password: 'teacher123' },
+                { role: 'Student', username: 'student', password: 'student123' },
+              ].map((c, i) => (
+                <div key={i} className="flex items-center justify-between text-xs">
+                  <span className="text-gray-500 w-14">{c.role}</span>
+                  <button
+                    type="button"
+                    onClick={() => { setUsername(c.username); setPassword(c.password); }}
+                    className="text-blue-700 hover:underline font-mono">
+                    {c.username} / {c.password}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
