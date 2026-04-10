@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -48,12 +48,13 @@ const Login = () => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>Demo Credentials:</p>
-          <p>Admin: admin / admin123</p>
-          <p>Teacher: teacher / teacher123</p>
-          <p>Student: student / student123</p>
-        </div>
+        <p className="text-center text-sm text-gray-600 mt-6">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-blue-700 font-semibold hover:underline">Register here</Link>
+        </p>
+        <p className="text-center text-sm text-gray-500 mt-2">
+          <Link to="/" className="hover:underline">← Back to Home</Link>
+        </p>
       </div>
     </div>
   );
