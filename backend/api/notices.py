@@ -13,12 +13,14 @@ class NoticeCreate(BaseModel):
     content: str
     target_role: Optional[str] = None
 
+@router.get("")
 @router.get("/")
 async def get_notices(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return db.query(Notice).filter(
         (Notice.target_role == None) | (Notice.target_role == current_user.role)
     ).order_by(Notice.created_at.desc()).all()
 
+@router.post("")
 @router.post("/")
 async def create_notice(notice: NoticeCreate, current_user: User = Depends(require_role(["admin", "teacher"])), db: Session = Depends(get_db)):
     db_notice = Notice(**notice.dict(), created_by=current_user.id)
