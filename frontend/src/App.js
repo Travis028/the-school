@@ -11,8 +11,8 @@ import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
-    <Router>
-      <Toaster position="top-right" />
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
