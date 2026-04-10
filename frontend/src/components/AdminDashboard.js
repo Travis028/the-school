@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [notices, setNotices] = useState([]);
   const [students, setStudents] = useState([]);
-  const [stats, setStats] = useState({ students: 0, teachers: 0, notices: 0 });
+  const [stats, setStats] = useState({ total_students: 0, total_teachers: 0, total_notices: 0, total_grades: 0, total_attendance: 0, total_users: 0 });
   const [noticeForm, setNoticeForm] = useState({ title: '', content: '', target_role: '' });
   const [registerForm, setRegisterForm] = useState({ email: '', username: '', full_name: '', password: '', role: 'student' });
 
@@ -24,19 +24,16 @@ const AdminDashboard = () => {
 
   const fetchAll = async () => {
     try {
-      const [usersRes, noticesRes, studentsRes] = await Promise.all([
+      const [usersRes, noticesRes, studentsRes, statsRes] = await Promise.all([
         api(token).get('/api/admin/users'),
         api(token).get('/api/notices/'),
         api(token).get('/api/students/'),
+        api(token).get('/api/admin/stats'),
       ]);
       setUsers(usersRes.data);
       setNotices(noticesRes.data);
       setStudents(studentsRes.data);
-      setStats({
-        students: usersRes.data.filter(u => u.role === 'student').length,
-        teachers: usersRes.data.filter(u => u.role === 'teacher').length,
-        notices: noticesRes.data.length,
-      });
+      setStats(statsRes.data);
     } catch (e) { toast.error('Failed to load data'); }
   };
 
@@ -113,11 +110,14 @@ const AdminDashboard = () => {
         {tab === 'dashboard' && (
           <div>
             <h2 className="text-2xl font-bold text-blue-900 mb-6">Dashboard Overview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-8">
               {[
-                { label: 'Total Students', value: stats.students, color: 'bg-blue-500', icon: '🎓' },
-                { label: 'Total Teachers', value: stats.teachers, color: 'bg-green-500', icon: '👨‍🏫' },
-                { label: 'Active Notices', value: stats.notices, color: 'bg-yellow-500', icon: '📢' },
+                { label: 'Students', value: stats.total_students, color: 'bg-blue-500', icon: 'S' },
+                { label: 'Teachers', value: stats.total_teachers, color: 'bg-green-500', icon: 'T' },
+                { label: 'Notices', value: stats.total_notices, color: 'bg-yellow-500', icon: 'N' },
+                { label: 'Grades', value: stats.total_grades, color: 'bg-purple-500', icon: 'G' },
+                { label: 'Attendance', value: stats.total_attendance, color: 'bg-pink-500', icon: 'A' },
+                { label: 'Users', value: stats.total_users, color: 'bg-indigo-500', icon: 'U' },
               ].map((s, i) => (
                 <div key={i} className={`${s.color} text-white rounded-xl p-6`}>
                   <div className="text-3xl mb-2">{s.icon}</div>
