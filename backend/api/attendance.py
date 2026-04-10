@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from pydantic import BaseModel
 from typing import Optional
 from core.database import get_db
@@ -13,24 +13,43 @@ class AttendanceCreate(BaseModel):
     status: bool
     remarks: Optional[str] = None
 
+def serialize_attendance(a):
+    return {
+        "id": a.id,
+        "student_id": a.student_id,
+        "date": str(a.date),
+        "status": a.status,
+        "remarks": a.remarks,
+        "student": {
+            "id": a.student.id,
+            "student_id": a.student.student_id,
+            "user": {
+                "full_name": a.student.user.full_name,
+            } if a.student and a.student.user else None,
+        } if a.student else None,
+    }
+
 @router.get("/")
 async def get_all_attendance(current_user: User = Depends(require_role(["admin", "teacher"])), db: Session = Depends(get_db)):
-    return db.query(Attendance).all()
+    records = db.query(Attendance).options(joinedload(Attendance.student).joinedload(Student.user)).all()
+    return [serialize_attendance(a) for a in records]
 
 @router.get("/me")
 async def get_my_attendance(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.user_id == current_user.id).first()
     if not student:
         return []
-    return db.query(Attendance).filter(Attendance.student_id == student.id).all()
+    records = db.query(Attendance).filter(Attendance.student_id == student.id).all()
+    return [serialize_attendance(a) for a in records]
 
 @router.post("/")
 async def mark_attendance(attendance: AttendanceCreate, current_user: User = Depends(require_role(["admin", "teacher"])), db: Session = Depends(get_db)):
-    db_attendance = Attendance(**attendance.dict())
-    db.add(db_attendance)
+    db_att = Attendance(**attendance.dict())
+    db.add(db_att)
     db.commit()
-    db.refresh(db_attendance)
-    return db_attendance
+    db.refresh(db_att)
+    db_att = db.query(Attendance).options(joinedload(Attendance.student).joinedload(Student.user)).filter(Attendance.id == db_att.id).first()
+    return serialize_attendance(db_att)
 
 @router.delete("/{attendance_id}")
 async def delete_attendance(attendance_id: int, current_user: User = Depends(require_role(["admin"])), db: Session = Depends(get_db)):
