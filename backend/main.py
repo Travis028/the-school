@@ -5,7 +5,11 @@ from api import auth, students, teachers, notices, grades, attendance, admin
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Akilli School Management System API", version="1.0.0")
+app = FastAPI(
+    title="Akilli School Management System API",
+    version="1.0.0",
+    redirect_slashes=False
+)
 
 app.add_middleware(
     CORSMiddleware,
