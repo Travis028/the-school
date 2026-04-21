@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { EyeIcon, EyeSlashIcon, AcademicCapIcon, LockClosedIcon, UserIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -43,10 +44,10 @@ const Register = () => {
     <div className="min-h-screen flex">
 
       {/* Left panel */}
-      <div className="hidden lg:flex lg:w-5/12 bg-gray-900 flex-col justify-between p-12">
+      <div className="hidden lg:flex lg:w-5/12 bg-gradient-to-br from-purple-600 via-indigo-700 to-blue-800 flex-col justify-between p-12">
         <div>
-          <Link to="/" className="flex items-center gap-3 mb-16">
-            <div className="w-9 h-9 bg-white flex items-center justify-center font-black text-gray-900 text-base">A</div>
+          <Link to="/" className="flex items-center gap-3 mb-16 group">
+            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center font-black text-purple-900 text-xl shadow-2xl group-hover:scale-110 transition-transform duration-300">A</div>
             <div>
               <p className="font-black text-white text-sm leading-none">Akilli School</p>
               <p className="text-gray-400 text-xs">Nairobi, Kenya</p>
