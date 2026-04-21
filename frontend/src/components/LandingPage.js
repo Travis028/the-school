@@ -13,6 +13,14 @@ const LandingPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setMenuOpen(false);
+    }
+  };
+
   const stats = [
     { label: 'Students Enrolled', value: '1,200+', icon: UserGroupIcon, color: 'from-blue-500 to-cyan-500' },
     { label: 'Qualified Teachers', value: '80+', icon: AcademicCapIcon, color: 'from-green-500 to-emerald-500' },
@@ -46,9 +54,9 @@ const LandingPage = () => {
               <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">Akilli School</span>
             </div>
             <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Features</a>
-              <a href="#programs" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Programs</a>
-              <a href="#testimonials" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Testimonials</a>
+              <button onClick={() => scrollToSection('features')} className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Features</button>
+              <button onClick={() => scrollToSection('programs')} className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Programs</button>
+              <button onClick={() => scrollToSection('testimonials')} className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Testimonials</button>
             </div>
             <div className="flex items-center gap-4">
               <button onClick={() => navigate('/login')} className="hidden sm:block px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Sign In</button>
@@ -61,9 +69,9 @@ const LandingPage = () => {
         {menuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="px-4 py-4 space-y-3">
-              <a href="#features" className="block text-gray-700 hover:text-blue-600 font-medium transition-colors py-2">Features</a>
-              <a href="#programs" className="block text-gray-700 hover:text-blue-600 font-medium transition-colors py-2">Programs</a>
-              <a href="#testimonials" className="block text-gray-700 hover:text-blue-600 font-medium transition-colors py-2">Testimonials</a>
+              <button onClick={() => scrollToSection('features')} className="block text-gray-700 hover:text-blue-600 font-medium transition-colors py-2">Features</button>
+              <button onClick={() => scrollToSection('programs')} className="block text-gray-700 hover:text-blue-600 font-medium transition-colors py-2">Programs</button>
+              <button onClick={() => scrollToSection('testimonials')} className="block text-gray-700 hover:text-blue-600 font-medium transition-colors py-2">Testimonials</button>
               <button onClick={() => navigate('/login')} className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300">Sign In</button>
             </div>
           </div>

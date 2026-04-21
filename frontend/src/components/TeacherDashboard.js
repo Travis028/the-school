@@ -44,6 +44,14 @@ const TeacherDashboard = () => {
   const [notices, setNotices] = useState([]);
   const [grades, setGrades] = useState([]);
   const [attendances, setAttendances] = useState([]);
+  const [settings, setSettings] = useState({
+    autoSaveGrades: true,
+    gradeNotifications: true,
+    attendanceReminders: false,
+    defaultGradeScale: 'Percentage (0-100)',
+    classSizeDisplay: 'All Students',
+    subjectSpecialization: 'Mathematics'
+  });
   const [gradeForm, setGradeForm] = useState({ student_id: '', subject: '', marks_obtained: '', total_marks: '100', exam_type: 'midterm' });
   const [attendanceForm, setAttendanceForm] = useState({ student_id: '', status: true, remarks: '' });
 
@@ -425,8 +433,15 @@ const TeacherDashboard = () => {
                     <p className="font-semibold text-gray-900">Auto-save Grades</p>
                     <p className="text-sm text-gray-600">Automatically save grade entries</p>
                   </div>
-                  <button className="w-12 h-6 bg-blue-600 rounded-full relative transition-colors">
-                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  <button 
+                    onClick={() => setSettings({...settings, autoSaveGrades: !settings.autoSaveGrades})}
+                    className={`w-12 h-6 rounded-full relative transition-colors ${
+                      settings.autoSaveGrades ? 'bg-blue-600' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${
+                      settings.autoSaveGrades ? 'right-0.5' : 'left-0.5'
+                    }`}></div>
                   </button>
                 </div>
                 <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
@@ -434,8 +449,15 @@ const TeacherDashboard = () => {
                     <p className="font-semibold text-gray-900">Grade Notifications</p>
                     <p className="text-sm text-gray-600">Notify students when grades are posted</p>
                   </div>
-                  <button className="w-12 h-6 bg-blue-600 rounded-full relative transition-colors">
-                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  <button 
+                    onClick={() => setSettings({...settings, gradeNotifications: !settings.gradeNotifications})}
+                    className={`w-12 h-6 rounded-full relative transition-colors ${
+                      settings.gradeNotifications ? 'bg-blue-600' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${
+                      settings.gradeNotifications ? 'right-0.5' : 'left-0.5'
+                    }`}></div>
                   </button>
                 </div>
                 <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
@@ -443,8 +465,15 @@ const TeacherDashboard = () => {
                     <p className="font-semibold text-gray-900">Attendance Reminders</p>
                     <p className="text-sm text-gray-600">Daily attendance marking reminders</p>
                   </div>
-                  <button className="w-12 h-6 bg-gray-300 rounded-full relative transition-colors">
-                    <div className="w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5"></div>
+                  <button 
+                    onClick={() => setSettings({...settings, attendanceReminders: !settings.attendanceReminders})}
+                    className={`w-12 h-6 rounded-full relative transition-colors ${
+                      settings.attendanceReminders ? 'bg-blue-600' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${
+                      settings.attendanceReminders ? 'right-0.5' : 'left-0.5'
+                    }`}></div>
                   </button>
                 </div>
               </div>
@@ -459,7 +488,11 @@ const TeacherDashboard = () => {
               <div className="space-y-4">
                 <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
                   <p className="font-semibold text-gray-900 mb-2">Default Grade Scale</p>
-                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                  <select 
+                    value={settings.defaultGradeScale}
+                    onChange={(e) => setSettings({...settings, defaultGradeScale: e.target.value})}
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                  >
                     <option>Percentage (0-100)</option>
                     <option>Letter Grades (A-F)</option>
                     <option>GPA Scale (4.0)</option>
@@ -467,7 +500,11 @@ const TeacherDashboard = () => {
                 </div>
                 <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
                   <p className="font-semibold text-gray-900 mb-2">Class Size Display</p>
-                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                  <select 
+                    value={settings.classSizeDisplay}
+                    onChange={(e) => setSettings({...settings, classSizeDisplay: e.target.value})}
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                  >
                     <option>All Students</option>
                     <option>25 per page</option>
                     <option>50 per page</option>
@@ -475,7 +512,11 @@ const TeacherDashboard = () => {
                 </div>
                 <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
                   <p className="font-semibold text-gray-900 mb-2">Subject Specialization</p>
-                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                  <select 
+                    value={settings.subjectSpecialization}
+                    onChange={(e) => setSettings({...settings, subjectSpecialization: e.target.value})}
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                  >
                     <option>Mathematics</option>
                     <option>Science</option>
                     <option>English</option>
@@ -492,15 +533,24 @@ const TeacherDashboard = () => {
                 Security Settings
               </h3>
               <div className="space-y-4">
-                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Password change feature coming soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-gray-900">Change Password</p>
                   <p className="text-sm text-gray-600">Update your account password</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('2FA setup feature coming soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-gray-900">Two-Factor Authentication</p>
                   <p className="text-sm text-gray-600">Add an extra layer of security</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 hover:border-orange-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Data export feature coming soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 hover:border-orange-300 transition-colors"
+                >
                   <p className="font-semibold text-yellow-700">Data Export</p>
                   <p className="text-sm text-yellow-600">Export your teaching data</p>
                 </button>

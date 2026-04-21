@@ -46,6 +46,12 @@ const AdminDashboard = () => {
   const [registerForm, setRegisterForm] = useState({ email: '', username: '', full_name: '', password: '', role: 'student' });
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
+  const [systemSettings, setSystemSettings] = useState({
+    emailNotifications: true,
+    smsNotifications: false,
+    systemHealth: 'Online',
+    databaseStatus: 'Connected'
+  });
 
   useEffect(() => { 
     fetchAll(); 
@@ -593,15 +599,24 @@ const AdminDashboard = () => {
                 System Configuration
               </h3>
               <div className="space-y-4">
-                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Database settings panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors"
+                >
                   <p className="font-semibold text-red-700">Database Settings</p>
                   <p className="text-sm text-red-600">Manage database connections and backups</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Security settings panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors"
+                >
                   <p className="font-semibold text-red-700">Security Settings</p>
                   <p className="text-sm text-red-600">Configure security policies and access controls</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('System maintenance panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors"
+                >
                   <p className="font-semibold text-red-700">System Maintenance</p>
                   <p className="text-sm text-red-600">Perform system updates and maintenance tasks</p>
                 </button>
@@ -615,15 +630,24 @@ const AdminDashboard = () => {
                 User Management
               </h3>
               <div className="space-y-4">
-                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => setTab('users')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-blue-700">User Roles & Permissions</p>
                   <p className="text-sm text-blue-600">Manage role-based access control</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Bulk operations panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-blue-700">Bulk User Operations</p>
                   <p className="text-sm text-blue-600">Import/export and bulk user management</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Activity logs panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-blue-700">User Activity Logs</p>
                   <p className="text-sm text-blue-600">View and analyze user activity</p>
                 </button>
@@ -637,15 +661,24 @@ const AdminDashboard = () => {
                 Academic Settings
               </h3>
               <div className="space-y-4">
-                <button className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Grade configuration panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors"
+                >
                   <p className="font-semibold text-green-700">Grade Configuration</p>
                   <p className="text-sm text-green-600">Set grade scales and grading policies</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Academic calendar panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors"
+                >
                   <p className="font-semibold text-green-700">Academic Calendar</p>
                   <p className="text-sm text-green-600">Manage academic year and term settings</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Subject management panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors"
+                >
                   <p className="font-semibold text-green-700">Subject Management</p>
                   <p className="text-sm text-green-600">Configure subjects and curriculum</p>
                 </button>
@@ -664,8 +697,15 @@ const AdminDashboard = () => {
                     <p className="font-semibold text-yellow-700">Email Notifications</p>
                     <p className="text-sm text-yellow-600">System-wide email settings</p>
                   </div>
-                  <button className="w-12 h-6 bg-yellow-600 rounded-full relative transition-colors">
-                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  <button 
+                    onClick={() => setSystemSettings({...systemSettings, emailNotifications: !systemSettings.emailNotifications})}
+                    className={`w-12 h-6 rounded-full relative transition-colors ${
+                      systemSettings.emailNotifications ? 'bg-yellow-600' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${
+                      systemSettings.emailNotifications ? 'right-0.5' : 'left-0.5'
+                    }`}></div>
                   </button>
                 </div>
                 <div className="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200">
@@ -673,11 +713,21 @@ const AdminDashboard = () => {
                     <p className="font-semibold text-yellow-700">SMS Notifications</p>
                     <p className="text-sm text-yellow-600">SMS gateway configuration</p>
                   </div>
-                  <button className="w-12 h-6 bg-gray-300 rounded-full relative transition-colors">
-                    <div className="w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5"></div>
+                  <button 
+                    onClick={() => setSystemSettings({...systemSettings, smsNotifications: !systemSettings.smsNotifications})}
+                    className={`w-12 h-6 rounded-full relative transition-colors ${
+                      systemSettings.smsNotifications ? 'bg-yellow-600' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${
+                      systemSettings.smsNotifications ? 'right-0.5' : 'left-0.5'
+                    }`}></div>
                   </button>
                 </div>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 hover:border-orange-300 transition-colors">
+                <button 
+                  onClick={() => setTab('notices')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 hover:border-orange-300 transition-colors"
+                >
                   <p className="font-semibold text-yellow-700">Notice Templates</p>
                   <p className="text-sm text-yellow-600">Manage notice and email templates</p>
                 </button>
@@ -691,15 +741,24 @@ const AdminDashboard = () => {
                 Data & Analytics
               </h3>
               <div className="space-y-4">
-                <button className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Data export panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-purple-700">Data Export</p>
                   <p className="text-sm text-purple-600">Export system data in various formats</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => setTab('dashboard')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-purple-700">Analytics Dashboard</p>
                   <p className="text-sm text-purple-600">View system analytics and reports</p>
                 </button>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('Backup & restore panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors"
+                >
                   <p className="font-semibold text-purple-700">Backup & Restore</p>
                   <p className="text-sm text-purple-600">Manage system backups and data recovery</p>
                 </button>
@@ -727,7 +786,10 @@ const AdminDashboard = () => {
                   </div>
                   <p className="text-sm text-blue-600">Database responding normally</p>
                 </div>
-                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-orange-300 transition-colors">
+                <button 
+                  onClick={() => toast.success('System logs panel opening soon!')}
+                  className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-orange-300 transition-colors"
+                >
                   <p className="font-semibold text-red-700">System Logs</p>
                   <p className="text-sm text-red-600">View detailed system logs and errors</p>
                 </button>
@@ -742,15 +804,36 @@ const AdminDashboard = () => {
               Critical Administrative Actions
             </h3>
             <div className="grid lg:grid-cols-3 gap-6">
-              <button className="p-4 bg-white rounded-2xl border-2 border-red-300 hover:border-red-500 transition-colors">
+              <button 
+                onClick={() => {
+                  if (window.confirm('⚠️ WARNING: This will reset the entire system to defaults. Are you absolutely sure?')) {
+                    toast.error('System reset cancelled - This is a demo!');
+                  }
+                }}
+                className="p-4 bg-white rounded-2xl border-2 border-red-300 hover:border-red-500 transition-colors"
+              >
                 <p className="font-bold text-red-700 mb-2">System Reset</p>
                 <p className="text-sm text-red-600">Reset entire system to defaults</p>
               </button>
-              <button className="p-4 bg-white rounded-2xl border-2 border-orange-300 hover:border-orange-500 transition-colors">
+              <button 
+                onClick={() => {
+                  if (window.confirm('⚠️ WARNING: This will delete all system data. Are you absolutely sure?')) {
+                    toast.error('Data purge cancelled - This is a demo!');
+                  }
+                }}
+                className="p-4 bg-white rounded-2xl border-2 border-orange-300 hover:border-orange-500 transition-colors"
+              >
                 <p className="font-bold text-orange-700 mb-2">Data Purge</p>
                 <p className="text-sm text-orange-600">Delete all system data</p>
               </button>
-              <button className="p-4 bg-white rounded-2xl border-2 border-yellow-300 hover:border-yellow-500 transition-colors">
+              <button 
+                onClick={() => {
+                  if (window.confirm('⚠️ WARNING: This will activate emergency mode. Continue?')) {
+                    toast.success('Emergency mode activated - This is a demo!');
+                  }
+                }}
+                className="p-4 bg-white rounded-2xl border-2 border-yellow-300 hover:border-yellow-500 transition-colors"
+              >
                 <p className="font-bold text-yellow-700 mb-2">Emergency Mode</p>
                 <p className="text-sm text-yellow-600">Activate emergency system mode</p>
               </button>
