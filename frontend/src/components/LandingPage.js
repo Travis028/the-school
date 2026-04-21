@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AcademicCapIcon, UserGroupIcon, BookOpenIcon, SparklesIcon, ArrowRightIcon, MenuIcon, XMarkIcon, CheckCircleIcon, StarIcon, GlobeAltIcon, HeartIcon, TrophyIcon, LightBulbIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
+import { AcademicCapIcon, UserGroupIcon, BookOpenIcon, SparklesIcon, ArrowRightIcon, Bars3Icon, XMarkIcon, CheckCircleIcon, StarIcon, GlobeAltIcon, HeartIcon, TrophyIcon, LightBulbIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const LandingPage = () => {
             <div className="flex items-center gap-4">
               <button onClick={() => navigate('/login')} className="hidden sm:block px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Sign In</button>
               <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded-2xl hover:bg-gray-100 transition-colors md:hidden">
-                {menuOpen ? <XMarkIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+                {menuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
               </button>
             </div>
           </div>
