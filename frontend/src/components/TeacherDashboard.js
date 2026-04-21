@@ -18,7 +18,9 @@ import {
   SparklesIcon,
   PlusIcon,
   PencilIcon,
-  TrashIcon
+  TrashIcon,
+  Cog6ToothIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline';
 
 const api = (token) => axios.create({
