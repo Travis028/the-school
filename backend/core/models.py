@@ -74,6 +74,18 @@ class Grade(Base):
     date = Column(DateTime, default=datetime.utcnow)
     student = relationship("Student", back_populates="grades")
 
+class UserSession(Base):
+    __tablename__ = "user_sessions"
+    id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(String, unique=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    token = Column(String, nullable=False)
+    login_time = Column(DateTime, default=datetime.utcnow)
+    last_activity = Column(DateTime, default=datetime.utcnow)
+    logout_time = Column(DateTime, nullable=True)
+    is_active = Column(Boolean, default=True)
+    user = relationship("User")
+
 class Notice(Base):
     __tablename__ = "notices"
     id = Column(Integer, primary_key=True, index=True)

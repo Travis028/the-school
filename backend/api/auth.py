@@ -2,8 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from core.database import get_db
-from core.models import User
+from core.models import User, UserSession
 from core.security import verify_password, create_access_token, get_password_hash, get_current_user
+from datetime import datetime, timedelta
 
 router = APIRouter(prefix="/api/auth", tags=["authentication"])
 
@@ -27,7 +28,7 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == request.username).first()
     if not user or not verify_password(request.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-    access_token = create_access_token(data={"user_id": user.id, "role": user.role})
+    access_token = create_access_token(data={"user_id": user.id, "role": user.role}, db=db)
     return {
         "access_token": access_token,
         "token_type": "bearer",
@@ -62,3 +63,43 @@ async def change_password(request: ChangePasswordRequest, current_user: User = D
     current_user.hashed_password = get_password_hash(request.new_password)
     db.commit()
     return {"message": "Password changed successfully"}
+
+@router.get("/online-users")
+async def get_online_users(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Get active sessions from last 5 minutes
+    five_minutes_ago = datetime.utcnow() - timedelta(minutes=5)
+    active_sessions = db.query(UserSession).filter(
+        UserSession.is_active == True,
+        UserSession.last_activity >= five_minutes_ago
+    ).all()
+    
+    online_users = []
+    for session in active_sessions:
+        online_duration = datetime.utcnow() - session.login_time
+        hours = int(online_duration.total_seconds() // 3600)
+        minutes = int((online_duration.total_seconds() % 3600) // 60)
+        
+        online_users.append({
+            "id": session.user.id,
+            "username": session.user.username,
+            "full_name": session.user.full_name,
+            "role": session.user.role,
+            "email": session.user.email,
+            "login_time": session.login_time.isoformat(),
+            "last_activity": session.last_activity.isoformat(),
+            "online_duration": {
+                "hours": hours,
+                "minutes": minutes,
+                "formatted": f"{hours}h {minutes}m"
+            },
+            "session_id": session.session_id
+        })
+    
+    return {
+        "online_users": online_users,
+        "total_online": len(online_users),
+        "timestamp": datetime.utcnow().isoformat()
+    }
