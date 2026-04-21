@@ -15,7 +15,11 @@ import {
   XCircleIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
-  SparklesIcon
+  SparklesIcon,
+  Cog6ToothIcon,
+  UserCircleIcon,
+  BellAlertIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline';
 
 const api = (token) => axios.create({
@@ -67,7 +71,8 @@ const StudentDashboard = () => {
     { key: 'grades', label: 'Grades', icon: BookOpenIcon, badge: grades.length > 0 ? grades.length : null },
     { key: 'attendance', label: 'Attendance', icon: CalendarIcon, badge: attendanceRate + '%' },
     { key: 'notices', label: 'Notices', icon: BellIcon, badge: notices.filter(n => !n.read).length || null },
-    { key: 'profile', label: 'My Profile' },
+    { key: 'profile', label: 'My Profile', icon: UserCircleIcon },
+    { key: 'settings', label: 'Settings', icon: Cog6ToothIcon },
   ];
 
   return (
@@ -401,6 +406,131 @@ const StudentDashboard = () => {
                   <p className="font-semibold text-gray-800 text-sm">{item.value}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Settings */}
+      {tab === 'settings' && (
+        <div className="space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">Student Settings</h2>
+            <p className="text-gray-600 mt-2">Manage your personal preferences and account settings</p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Personal Information */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <UserCircleIcon className="w-6 h-6 text-blue-600" />
+                Personal Information
+              </h3>
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Full Name</p>
+                  <p className="text-gray-900">{user.full_name}</p>
+                </div>
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Username</p>
+                  <p className="text-gray-900">{user.username}</p>
+                </div>
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Email</p>
+                  <p className="text-gray-900">{user.email}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Notification Preferences */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <BellAlertIcon className="w-6 h-6 text-blue-600" />
+                Notification Preferences
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
+                  <div>
+                    <p className="font-semibold text-gray-900">Grade Notifications</p>
+                    <p className="text-sm text-gray-600">Get notified when new grades are posted</p>
+                  </div>
+                  <button className="w-12 h-6 bg-blue-600 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  </button>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
+                  <div>
+                    <p className="font-semibold text-gray-900">Attendance Alerts</p>
+                    <p className="text-sm text-gray-600">Receive attendance status updates</p>
+                  </div>
+                  <button className="w-12 h-6 bg-blue-600 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  </button>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
+                  <div>
+                    <p className="font-semibold text-gray-900">School Notices</p>
+                    <p className="text-sm text-gray-600">Important announcements and updates</p>
+                  </div>
+                  <button className="w-12 h-6 bg-gray-300 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Security Settings */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <ShieldCheckIcon className="w-6 h-6 text-blue-600" />
+                Security Settings
+              </h3>
+              <div className="space-y-4">
+                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-gray-900">Change Password</p>
+                  <p className="text-sm text-gray-600">Update your account password</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-gray-900">Two-Factor Authentication</p>
+                  <p className="text-sm text-gray-600">Add an extra layer of security</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-orange-300 transition-colors">
+                  <p className="font-semibold text-red-700">Privacy Settings</p>
+                  <p className="text-sm text-red-600">Manage your data and privacy</p>
+                </button>
+              </div>
+            </div>
+
+            {/* Academic Preferences */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <AcademicCapIcon className="w-6 h-6 text-blue-600" />
+                Academic Preferences
+              </h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+                  <p className="font-semibold text-gray-900 mb-2">Language Preference</p>
+                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                    <option>English</option>
+                    <option>Swahili</option>
+                  </select>
+                </div>
+                <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+                  <p className="font-semibold text-gray-900 mb-2">Time Zone</p>
+                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                    <option>East Africa Time (EAT)</option>
+                    <option>UTC+3</option>
+                  </select>
+                </div>
+                <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+                  <p className="font-semibold text-gray-900 mb-2">Grade Report Format</p>
+                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                    <option>Detailed</option>
+                    <option>Summary</option>
+                    <option>Compact</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
         </div>

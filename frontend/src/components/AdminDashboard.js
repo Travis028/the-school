@@ -125,6 +125,7 @@ const AdminDashboard = () => {
     { key: 'students', label: 'Students', icon: AcademicCapIcon },
     { key: 'notices', label: 'Notices', icon: BellIcon },
     { key: 'register', label: 'Register User', icon: UserPlusIcon },
+    { key: 'settings', label: 'System Settings', icon: Cog6ToothIcon },
   ];
 
   const filteredUsers = users.filter(u =>
@@ -570,6 +571,188 @@ const AdminDashboard = () => {
                 Register User ✨
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* System Settings */}
+      {tab === 'settings' && (
+        <div className="space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text">System Settings</h2>
+            <p className="text-gray-600 mt-2">Full administrative control of all system settings and configurations</p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* System Configuration */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <Cog6ToothIcon className="w-6 h-6 text-red-600" />
+                System Configuration
+              </h3>
+              <div className="space-y-4">
+                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors">
+                  <p className="font-semibold text-red-700">Database Settings</p>
+                  <p className="text-sm text-red-600">Manage database connections and backups</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors">
+                  <p className="font-semibold text-red-700">Security Settings</p>
+                  <p className="text-sm text-red-600">Configure security policies and access controls</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-red-300 transition-colors">
+                  <p className="font-semibold text-red-700">System Maintenance</p>
+                  <p className="text-sm text-red-600">Perform system updates and maintenance tasks</p>
+                </button>
+              </div>
+            </div>
+
+            {/* User Management */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <UserGroupIcon className="w-6 h-6 text-red-600" />
+                User Management
+              </h3>
+              <div className="space-y-4">
+                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-blue-700">User Roles & Permissions</p>
+                  <p className="text-sm text-blue-600">Manage role-based access control</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-blue-700">Bulk User Operations</p>
+                  <p className="text-sm text-blue-600">Import/export and bulk user management</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-blue-700">User Activity Logs</p>
+                  <p className="text-sm text-blue-600">View and analyze user activity</p>
+                </button>
+              </div>
+            </div>
+
+            {/* Academic Settings */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <AcademicCapIcon className="w-6 h-6 text-red-600" />
+                Academic Settings
+              </h3>
+              <div className="space-y-4">
+                <button className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors">
+                  <p className="font-semibold text-green-700">Grade Configuration</p>
+                  <p className="text-sm text-green-600">Set grade scales and grading policies</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors">
+                  <p className="font-semibold text-green-700">Academic Calendar</p>
+                  <p className="text-sm text-green-600">Manage academic year and term settings</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 hover:border-green-300 transition-colors">
+                  <p className="font-semibold text-green-700">Subject Management</p>
+                  <p className="text-sm text-green-600">Configure subjects and curriculum</p>
+                </button>
+              </div>
+            </div>
+
+            {/* Communication Settings */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <BellIcon className="w-6 h-6 text-red-600" />
+                Communication Settings
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200">
+                  <div>
+                    <p className="font-semibold text-yellow-700">Email Notifications</p>
+                    <p className="text-sm text-yellow-600">System-wide email settings</p>
+                  </div>
+                  <button className="w-12 h-6 bg-yellow-600 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  </button>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200">
+                  <div>
+                    <p className="font-semibold text-yellow-700">SMS Notifications</p>
+                    <p className="text-sm text-yellow-600">SMS gateway configuration</p>
+                  </div>
+                  <button className="w-12 h-6 bg-gray-300 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5"></div>
+                  </button>
+                </div>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 hover:border-orange-300 transition-colors">
+                  <p className="font-semibold text-yellow-700">Notice Templates</p>
+                  <p className="text-sm text-yellow-600">Manage notice and email templates</p>
+                </button>
+              </div>
+            </div>
+
+            {/* Data & Analytics */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <ChartBarIcon className="w-6 h-6 text-red-600" />
+                Data & Analytics
+              </h3>
+              <div className="space-y-4">
+                <button className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-purple-700">Data Export</p>
+                  <p className="text-sm text-purple-600">Export system data in various formats</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-purple-700">Analytics Dashboard</p>
+                  <p className="text-sm text-purple-600">View system analytics and reports</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-purple-700">Backup & Restore</p>
+                  <p className="text-sm text-purple-600">Manage system backups and data recovery</p>
+                </button>
+              </div>
+            </div>
+
+            {/* System Status */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <SignalIcon className="w-6 h-6 text-red-600" />
+                System Status
+              </h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="font-semibold text-green-700">System Health</p>
+                    <span className="text-xs font-bold px-2 py-1 bg-green-600 text-white rounded-full">Online</span>
+                  </div>
+                  <p className="text-sm text-green-600">All systems operational</p>
+                </div>
+                <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl border border-blue-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="font-semibold text-blue-700">Database Status</p>
+                    <span className="text-xs font-bold px-2 py-1 bg-blue-600 text-white rounded-full">Connected</span>
+                  </div>
+                  <p className="text-sm text-blue-600">Database responding normally</p>
+                </div>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-orange-300 transition-colors">
+                  <p className="font-semibold text-red-700">System Logs</p>
+                  <p className="text-sm text-red-600">View detailed system logs and errors</p>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Critical Admin Actions */}
+          <div className="bg-gradient-to-r from-red-50 to-orange-50 p-8 rounded-3xl shadow-xl border-2 border-red-200">
+            <h3 className="text-xl font-bold text-red-700 mb-6 flex items-center gap-3">
+              <ExclamationTriangleIcon className="w-6 h-6" />
+              Critical Administrative Actions
+            </h3>
+            <div className="grid lg:grid-cols-3 gap-6">
+              <button className="p-4 bg-white rounded-2xl border-2 border-red-300 hover:border-red-500 transition-colors">
+                <p className="font-bold text-red-700 mb-2">System Reset</p>
+                <p className="text-sm text-red-600">Reset entire system to defaults</p>
+              </button>
+              <button className="p-4 bg-white rounded-2xl border-2 border-orange-300 hover:border-orange-500 transition-colors">
+                <p className="font-bold text-orange-700 mb-2">Data Purge</p>
+                <p className="text-sm text-orange-600">Delete all system data</p>
+              </button>
+              <button className="p-4 bg-white rounded-2xl border-2 border-yellow-300 hover:border-yellow-500 transition-colors">
+                <p className="font-bold text-yellow-700 mb-2">Emergency Mode</p>
+                <p className="text-sm text-yellow-600">Activate emergency system mode</p>
+              </button>
+            </div>
           </div>
         </div>
       )}

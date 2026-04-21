@@ -43,10 +43,10 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
       <aside className={`fixed top-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900 text-white z-30 flex flex-col shadow-2xl
         transform transition-all duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:z-auto
-        ${expanded ? 'w-80' : 'w-24'}`}>
+        ${expanded ? 'w-64' : 'w-20'}`}>
 
         {/* School brand */}
-        <div className="px-6 py-8 border-b border-white/10 backdrop-blur-sm">
+        <div className="px-4 py-6 border-b border-white/10 backdrop-blur-sm">
           <Link to="/" className="flex items-center gap-4 group">
             <div className="relative">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-black text-white rounded-2xl flex-shrink-0 shadow-2xl group-hover:scale-110 transition-transform duration-300">
@@ -62,7 +62,7 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
         </div>
 
         {/* User info */}
-        <div className="px-6 py-6 border-b border-white/10 backdrop-blur-sm">
+        <div className="px-4 py-4 border-b border-white/10 backdrop-blur-sm">
           <div className="flex items-center gap-4">
             <div className="relative">
               <div className={`w-14 h-14 bg-gradient-to-br ${roleBg[role]} flex items-center justify-center font-bold text-white rounded-2xl flex-shrink-0 shadow-2xl`}>
@@ -82,14 +82,14 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-6 py-8 space-y-3 overflow-y-auto">
+        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
           {tabs.map(t => {
             const Icon = t.icon;
             const isActive = activeTab === t.key;
             return (
               <button key={t.key}
                 onClick={() => { onTabChange(t.key); setSidebarOpen(false); }}
-                className={`w-full group relative flex items-center gap-4 px-5 py-4 text-sm font-medium transition-all duration-300 rounded-2xl overflow-hidden
+                className={`w-full group relative flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-300 rounded-xl overflow-hidden
                   ${isActive
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl shadow-blue-500/25 scale-105'
                     : 'text-gray-400 hover:bg-white/10 hover:text-white hover:scale-105'}`}>
@@ -98,7 +98,7 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
                 
                 {/* Icon */}
                 <div className={`relative z-10 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-white'} transition-colors duration-300`}>
-                  <Icon className="w-7 h-7" />
+                  <Icon className="w-6 h-6" />
                 </div>
                 
                 {/* Label */}
@@ -127,14 +127,14 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
         </nav>
 
         {/* Bottom actions */}
-        <div className="px-6 py-6 border-t border-white/10 backdrop-blur-sm space-y-3 mt-auto">
+        <div className="px-4 py-4 border-t border-white/10 backdrop-blur-sm space-y-2 mt-auto">
           {/* Expand/Collapse button */}
           <button 
             onClick={() => setExpanded(!expanded)}
-            className="w-full flex items-center justify-center gap-3 px-5 py-4 text-sm text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300 rounded-2xl group"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300 rounded-xl group"
           >
             <div className={`transform transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}>
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </div>
@@ -143,8 +143,8 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
           
           {/* Logout */}
           <button onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-5 py-4 text-sm text-gray-400 hover:bg-red-500/20 hover:text-red-400 transition-all duration-300 rounded-2xl group">
-            <ArrowRightOnRectangleIcon className="w-6 h-6" />
+            className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-400 hover:bg-red-500/20 hover:text-red-400 transition-all duration-300 rounded-xl group">
+            <ArrowRightOnRectangleIcon className="w-5 h-5" />
             <span className={`${expanded ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'} transition-all duration-300 font-medium`}>Sign Out</span>
           </button>
         </div>

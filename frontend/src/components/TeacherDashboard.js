@@ -85,6 +85,7 @@ const TeacherDashboard = () => {
     { key: 'grades', label: 'Grades', icon: BookOpenIcon, badge: grades.length > 0 ? grades.length : null },
     { key: 'attendance', label: 'Attendance', icon: CalendarIcon, badge: attendances.length > 0 ? attendances.length : null },
     { key: 'notices', label: 'Notices', icon: BellIcon, badge: notices.filter(n => !n.read).length || null },
+    { key: 'settings', label: 'Settings', icon: Cog6ToothIcon },
   ];
 
   const presentCount = attendances.filter(a => a.status).length;
@@ -372,6 +373,138 @@ const TeacherDashboard = () => {
               <p className="text-gray-400 text-sm">No notices at the moment.</p>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Settings */}
+      {tab === 'settings' && (
+        <div className="space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">Teacher Settings</h2>
+            <p className="text-gray-600 mt-2">Manage your teaching preferences and account settings</p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Teacher Information */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <AcademicCapIcon className="w-6 h-6 text-blue-600" />
+                Teacher Information
+              </h3>
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Full Name</p>
+                  <p className="text-gray-900">{user.full_name}</p>
+                </div>
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Username</p>
+                  <p className="text-gray-900">{user.username}</p>
+                </div>
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Email</p>
+                  <p className="text-gray-900">{user.email}</p>
+                </div>
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Department</p>
+                  <p className="text-gray-900">Academic Department</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Class Management */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <UserGroupIcon className="w-6 h-6 text-blue-600" />
+                Class Management
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
+                  <div>
+                    <p className="font-semibold text-gray-900">Auto-save Grades</p>
+                    <p className="text-sm text-gray-600">Automatically save grade entries</p>
+                  </div>
+                  <button className="w-12 h-6 bg-blue-600 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  </button>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
+                  <div>
+                    <p className="font-semibold text-gray-900">Grade Notifications</p>
+                    <p className="text-sm text-gray-600">Notify students when grades are posted</p>
+                  </div>
+                  <button className="w-12 h-6 bg-blue-600 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                  </button>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
+                  <div>
+                    <p className="font-semibold text-gray-900">Attendance Reminders</p>
+                    <p className="text-sm text-gray-600">Daily attendance marking reminders</p>
+                  </div>
+                  <button className="w-12 h-6 bg-gray-300 rounded-full relative transition-colors">
+                    <div className="w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Teaching Preferences */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <BookOpenIcon className="w-6 h-6 text-blue-600" />
+                Teaching Preferences
+              </h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+                  <p className="font-semibold text-gray-900 mb-2">Default Grade Scale</p>
+                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                    <option>Percentage (0-100)</option>
+                    <option>Letter Grades (A-F)</option>
+                    <option>GPA Scale (4.0)</option>
+                  </select>
+                </div>
+                <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+                  <p className="font-semibold text-gray-900 mb-2">Class Size Display</p>
+                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                    <option>All Students</option>
+                    <option>25 per page</option>
+                    <option>50 per page</option>
+                  </select>
+                </div>
+                <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+                  <p className="font-semibold text-gray-900 mb-2">Subject Specialization</p>
+                  <select className="w-full p-2 border border-gray-300 rounded-lg">
+                    <option>Mathematics</option>
+                    <option>Science</option>
+                    <option>English</option>
+                    <option>Social Studies</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Security Settings */}
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <ShieldCheckIcon className="w-6 h-6 text-blue-600" />
+                Security Settings
+              </h3>
+              <div className="space-y-4">
+                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-gray-900">Change Password</p>
+                  <p className="text-sm text-gray-600">Update your account password</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors">
+                  <p className="font-semibold text-gray-900">Two-Factor Authentication</p>
+                  <p className="text-sm text-gray-600">Add an extra layer of security</p>
+                </button>
+                <button className="w-full text-left p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 hover:border-orange-300 transition-colors">
+                  <p className="font-semibold text-yellow-700">Data Export</p>
+                  <p className="text-sm text-yellow-600">Export your teaching data</p>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </DashboardLayout>
