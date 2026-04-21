@@ -2,6 +2,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import DashboardLayout from './DashboardLayout';
+import { 
+  AcademicCapIcon,
+  BookOpenIcon,
+  CalendarIcon,
+  BellIcon,
+  UserGroupIcon,
+  ChartBarIcon,
+  DocumentTextIcon,
+  ClockIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
+  SparklesIcon
+} from '@heroicons/react/24/outline';
 
 const api = (token) => axios.create({
   baseURL: 'http://localhost:8000',
@@ -9,11 +24,11 @@ const api = (token) => axios.create({
 });
 
 const gradeLetter = (pct) => {
-  if (pct >= 80) return { letter: 'A', color: 'text-green-700', bg: 'bg-green-100' };
-  if (pct >= 70) return { letter: 'B', color: 'text-blue-700', bg: 'bg-blue-100' };
-  if (pct >= 60) return { letter: 'C', color: 'text-yellow-700', bg: 'bg-yellow-100' };
-  if (pct >= 50) return { letter: 'D', color: 'text-orange-700', bg: 'bg-orange-100' };
-  return { letter: 'E', color: 'text-red-700', bg: 'bg-red-100' };
+  if (pct >= 80) return { letter: 'A', color: 'text-green-700', bg: 'bg-gradient-to-r from-green-400 to-emerald-500', text: 'text-white', border: 'border-green-400' };
+  if (pct >= 70) return { letter: 'B', color: 'text-blue-700', bg: 'bg-gradient-to-r from-blue-400 to-cyan-500', text: 'text-white', border: 'border-blue-400' };
+  if (pct >= 60) return { letter: 'C', color: 'text-yellow-700', bg: 'bg-gradient-to-r from-yellow-400 to-orange-500', text: 'text-white', border: 'border-yellow-400' };
+  if (pct >= 50) return { letter: 'D', color: 'text-orange-700', bg: 'bg-gradient-to-r from-orange-400 to-red-500', text: 'text-white', border: 'border-orange-400' };
+  return { letter: 'E', color: 'text-red-700', bg: 'bg-gradient-to-r from-red-400 to-pink-500', text: 'text-white', border: 'border-red-400' };
 };
 
 const StudentDashboard = () => {
@@ -48,10 +63,10 @@ const StudentDashboard = () => {
   const subjects = [...new Set(grades.map(g => g.subject))];
 
   const tabs = [
-    { key: 'dashboard', label: 'Dashboard' },
-    { key: 'grades', label: 'My Grades' },
-    { key: 'attendance', label: 'Attendance' },
-    { key: 'notices', label: 'Notices' },
+    { key: 'dashboard', label: 'Dashboard', icon: ChartBarIcon, badge: null },
+    { key: 'grades', label: 'Grades', icon: BookOpenIcon, badge: grades.length > 0 ? grades.length : null },
+    { key: 'attendance', label: 'Attendance', icon: CalendarIcon, badge: attendanceRate + '%' },
+    { key: 'notices', label: 'Notices', icon: BellIcon, badge: notices.filter(n => !n.read).length || null },
     { key: 'profile', label: 'My Profile' },
   ];
 
@@ -60,95 +75,180 @@ const StudentDashboard = () => {
 
       {/* Dashboard */}
       {tab === 'dashboard' && (
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-xl font-black text-gray-900">Overview</h2>
-            <p className="text-gray-500 text-sm mt-0.5">Welcome back, {user.full_name}</p>
+        <div className="space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">Student Dashboard</h2>
+            <p className="text-gray-600 mt-2">Welcome back, <span className="font-semibold text-blue-600">{user.full_name}</span></p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className={`bg-white border-t-4 ${attendanceRate >= 75 ? 'border-green-600' : 'border-red-500'} p-4 shadow-sm`}>
-              <p className="text-2xl font-black text-gray-900">{attendanceRate}%</p>
-              <p className="text-gray-500 text-xs mt-1">Attendance Rate</p>
-              <p className={`text-xs mt-0.5 font-medium ${attendanceRate >= 75 ? 'text-green-600' : 'text-red-600'}`}>
-                {presentDays}/{attendances.length} days
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className={`bg-gradient-to-br ${attendanceRate >= 75 ? 'from-green-50 to-emerald-50' : 'from-red-50 to-pink-50'} p-6 rounded-3xl shadow-xl border-2 ${attendanceRate >= 75 ? 'border-green-200' : 'border-red-200'} hover:shadow-2xl transition-all duration-300 group`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className={`w-12 h-12 bg-gradient-to-br ${attendanceRate >= 75 ? 'from-green-500 to-emerald-600' : 'from-red-500 to-pink-600'} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <CheckCircleIcon className="w-6 h-6" />
+                </div>
+                <span className={`text-xs font-bold px-3 py-1 rounded-full ${attendanceRate >= 75 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                  {attendanceRate >= 75 ? 'Good' : 'Low'}
+                </span>
+              </div>
+              <p className="text-3xl font-bold text-gray-900 mb-2">{attendanceRate}%</p>
+              <p className="text-gray-600 text-sm font-medium mb-1">Attendance Rate</p>
+              <p className={`text-xs ${attendanceRate >= 75 ? 'text-green-600' : 'text-red-600'} font-medium`}>
+                {presentDays}/{attendances.length} days present
               </p>
             </div>
-            <div className={`bg-white border-t-4 ${avgGrade >= 50 ? 'border-blue-600' : 'border-orange-500'} p-4 shadow-sm`}>
-              <p className="text-2xl font-black text-gray-900">{avgGrade}%</p>
-              <p className="text-gray-500 text-xs mt-1">Average Grade</p>
-              <p className={`text-xs mt-0.5 font-medium ${gradeLetter(avgGrade).color}`}>
-                Grade {gradeLetter(avgGrade).letter}
-              </p>
+            
+            <div className={`bg-gradient-to-br ${avgGrade >= 50 ? 'from-blue-50 to-indigo-50' : 'from-orange-50 to-yellow-50'} p-6 rounded-3xl shadow-xl border-2 ${avgGrade >= 50 ? 'border-blue-200' : 'border-orange-200'} hover:shadow-2xl transition-all duration-300 group`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className={`w-12 h-12 bg-gradient-to-br ${avgGrade >= 50 ? 'from-blue-500 to-indigo-600' : 'from-orange-500 to-yellow-600'} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <BookOpenIcon className="w-6 h-6" />
+                </div>
+                <span className={`text-xs font-bold px-3 py-1 rounded-full ${gradeLetter(avgGrade).bg} ${gradeLetter(avgGrade).text}`}>
+                  Grade {gradeLetter(avgGrade).letter}
+                </span>
+              </div>
+              <p className="text-3xl font-bold text-gray-900 mb-2">{avgGrade}%</p>
+              <p className="text-gray-600 text-sm font-medium mb-1">Average Grade</p>
+              <p className="text-xs text-gray-500">{grades.length} grade records</p>
             </div>
-            <div className="bg-white border-t-4 border-purple-600 p-4 shadow-sm">
-              <p className="text-2xl font-black text-gray-900">{subjects.length}</p>
-              <p className="text-gray-500 text-xs mt-1">Subjects</p>
-              <p className="text-xs mt-0.5 text-gray-400">{grades.length} total records</p>
+            
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-3xl shadow-xl border-2 border-purple-200 hover:shadow-2xl transition-all duration-300 group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <AcademicCapIcon className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-700">
+                  Active
+                </span>
+              </div>
+              <p className="text-3xl font-bold text-gray-900 mb-2">{subjects.length}</p>
+              <p className="text-gray-600 text-sm font-medium mb-1">Subjects</p>
+              <p className="text-xs text-gray-500">{grades.length} total records</p>
             </div>
-            <div className="bg-white border-t-4 border-yellow-500 p-4 shadow-sm">
-              <p className="text-2xl font-black text-gray-900">{notices.length}</p>
-              <p className="text-gray-500 text-xs mt-1">Notices</p>
-              <p className="text-xs mt-0.5 text-gray-400">School updates</p>
+            
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-3xl shadow-xl border-2 border-yellow-200 hover:shadow-2xl transition-all duration-300 group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <BellIcon className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-yellow-100 text-yellow-700">
+                  {notices.filter(n => !n.read).length > 0 ? 'New' : 'Read'}
+                </span>
+              </div>
+              <p className="text-3xl font-bold text-gray-900 mb-2">{notices.length}</p>
+              <p className="text-gray-600 text-sm font-medium mb-1">Notices</p>
+              <p className="text-xs text-gray-500">School updates</p>
             </div>
           </div>
 
-          {/* Attendance bar */}
-          <div className="bg-white border border-gray-200 p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-gray-900 text-sm">Attendance Progress</h3>
-              <span className={`text-xs font-semibold px-2 py-1 ${attendanceRate >= 75 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                {attendanceRate >= 75 ? 'Good Standing' : 'Below Minimum'}
+          {/* Attendance Progress */}
+          <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-bold text-gray-900">Attendance Progress</h3>
+              <span className={`text-sm font-bold px-4 py-2 rounded-full ${attendanceRate >= 75 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} shadow-md`}>
+                {attendanceRate >= 75 ? '✓ Good Standing' : '⚠ Below Minimum'}
               </span>
             </div>
-            <div className="w-full bg-gray-100 h-2 mb-2">
-              <div className={`h-2 transition-all ${attendanceRate >= 75 ? 'bg-green-600' : 'bg-red-500'}`}
-                style={{ width: `${attendanceRate}%` }}></div>
+            <div className="relative mb-6">
+              <div className="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
+                <div className={`h-full transition-all duration-500 ${attendanceRate >= 75 ? 'bg-gradient-to-r from-green-400 to-emerald-500' : 'bg-gradient-to-r from-red-400 to-pink-500'}`}
+                  style={{ width: `${attendanceRate}%` }}>
+                  <div className="h-full bg-white/20 animate-pulse"></div>
+                </div>
+              </div>
+              <div className="absolute -top-1 left-0 w-full flex justify-between text-xs text-gray-500">
+                <span>0%</span>
+                <span>25%</span>
+                <span>50%</span>
+                <span>75%</span>
+                <span>100%</span>
+              </div>
             </div>
-            <div className="flex justify-between text-xs text-gray-400">
-              <span>{presentDays} days present</span>
-              <span>{absentDays} days absent</span>
-              <span>Minimum required: 75%</span>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="bg-green-50 p-4 rounded-2xl border border-green-200">
+                <CheckCircleIcon className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-green-700">{presentDays}</p>
+                <p className="text-sm text-green-600">Days Present</p>
+              </div>
+              <div className="bg-red-50 p-4 rounded-2xl border border-red-200">
+                <XCircleIcon className="w-6 h-6 text-red-600 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-red-700">{absentDays}</p>
+                <p className="text-sm text-red-600">Days Absent</p>
+              </div>
+              <div className="bg-blue-50 p-4 rounded-2xl border border-blue-200">
+                <CalendarIcon className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-blue-700">75%</p>
+                <p className="text-sm text-blue-600">Minimum Required</p>
+              </div>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
-            <div className="bg-white border border-gray-200 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-gray-900 text-sm">Recent Grades</h3>
-                <button onClick={() => setTab('grades')} className="text-blue-700 text-xs hover:underline">View all</button>
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-bold text-gray-900">Recent Grades</h3>
+                <button onClick={() => setTab('grades')} className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+                  View all <ArrowTrendingUpIcon className="w-4 h-4" />
+                </button>
               </div>
-              {grades.slice(0, 5).map((g, i) => {
-                const pct = Math.round((g.marks_obtained / g.total_marks) * 100);
-                const { letter, color, bg } = gradeLetter(pct);
-                return (
-                  <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
-                    <div>
-                      <p className="font-medium text-gray-800 text-sm">{g.subject}</p>
-                      <p className="text-gray-400 text-xs capitalize">{g.exam_type}</p>
+              <div className="space-y-4">
+                {grades.slice(0, 5).map((g, i) => {
+                  const pct = Math.round((g.marks_obtained / g.total_marks) * 100);
+                  const { letter, bg, text, border } = gradeLetter(pct);
+                  return (
+                    <div key={i} className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-2xl border border-gray-200 hover:border-blue-300 transition-all duration-300 group">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <p className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">{g.subject}</p>
+                          <p className="text-gray-500 text-xs capitalize mt-1">{g.exam_type}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="text-right">
+                            <span className={`text-sm font-bold px-3 py-1.5 rounded-xl ${bg} ${text} shadow-md border ${border}`}>{letter}</span>
+                            <p className="text-xs text-gray-500 mt-1">{g.marks_obtained}/{g.total_marks}</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <span className={`text-xs font-black px-2 py-1 ${bg} ${color}`}>{letter}</span>
-                      <p className="text-xs text-gray-400 mt-0.5">{g.marks_obtained}/{g.total_marks}</p>
-                    </div>
+                  );
+                })}
+                {grades.length === 0 && (
+                  <div className="text-center py-8">
+                    <BookOpenIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                    <p className="text-gray-500 text-sm">No grades yet.</p>
                   </div>
-                );
-              })}
-              {grades.length === 0 && <p className="text-gray-400 text-sm py-4 text-center">No grades yet.</p>}
+                )}
+              </div>
             </div>
 
-            <div className="bg-white border border-gray-200 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-gray-900 text-sm">Latest Notices</h3>
-                <button onClick={() => setTab('notices')} className="text-blue-700 text-xs hover:underline">View all</button>
+            <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-200/50">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-bold text-gray-900">Latest Notices</h3>
+                <button onClick={() => setTab('notices')} className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+                  View all <BellIcon className="w-4 h-4" />
+                </button>
               </div>
-              {notices.slice(0, 4).map((n, i) => (
-                <div key={i} className="py-2.5 border-b border-gray-100 last:border-0">
-                  <p className="font-medium text-gray-800 text-sm">{n.title}</p>
-                  <p className="text-gray-400 text-xs mt-0.5 line-clamp-1">{n.content}</p>
-                </div>
-              ))}
-              {notices.length === 0 && <p className="text-gray-400 text-sm py-4 text-center">No notices.</p>}
+              <div className="space-y-4">
+                {notices.slice(0, 4).map((n, i) => (
+                  <div key={i} className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-2xl border border-blue-200 hover:border-purple-300 transition-all duration-300 group">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md">
+                        <BellIcon className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">{n.title}</p>
+                        <p className="text-gray-500 text-xs mt-1 line-clamp-2">{n.content}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {notices.length === 0 && (
+                  <div className="text-center py-8">
+                    <BellIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                    <p className="text-gray-500 text-sm">No notices.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
