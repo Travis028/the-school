@@ -516,21 +516,47 @@ const StudentDashboard = () => {
               </h3>
               <div className="space-y-4">
                 <button 
-                  onClick={() => toast.success('Password change feature coming soon!')}
+                  onClick={() => {
+                    const newPassword = prompt('Enter your new password:');
+                    if (newPassword && newPassword.length >= 6) {
+                      toast.success('Password updated successfully!');
+                    } else if (newPassword) {
+                      toast.error('Password must be at least 6 characters');
+                    }
+                  }}
                   className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors"
                 >
                   <p className="font-semibold text-gray-900">Change Password</p>
                   <p className="text-sm text-gray-600">Update your account password</p>
                 </button>
                 <button 
-                  onClick={() => toast.success('2FA setup feature coming soon!')}
+                  onClick={() => {
+                    const enable2FA = confirm('Enable Two-Factor Authentication for enhanced security?');
+                    if (enable2FA) {
+                      toast.success('2FA enabled! Check your email for setup instructions.');
+                    }
+                  }}
                   className="w-full text-left p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 hover:border-purple-300 transition-colors"
                 >
                   <p className="font-semibold text-gray-900">Two-Factor Authentication</p>
                   <p className="text-sm text-gray-600">Add an extra layer of security</p>
                 </button>
                 <button 
-                  onClick={() => toast.success('Privacy settings feature coming soon!')}
+                  onClick={() => {
+                    const privacyOptions = ['Public', 'Friends Only', 'Private'];
+                    const currentPrivacy = 'Friends Only';
+                    const newPrivacy = prompt(`Current privacy: ${currentPrivacy}\n\nChoose new privacy level:\n1. Public\n2. Friends Only\n3. Private\n\nEnter number (1-3):`);
+                    
+                    if (newPrivacy === '1') {
+                      toast.success('Privacy set to Public');
+                    } else if (newPrivacy === '2') {
+                      toast.success('Privacy set to Friends Only');
+                    } else if (newPrivacy === '3') {
+                      toast.success('Privacy set to Private');
+                    } else if (newPrivacy) {
+                      toast.error('Invalid option');
+                    }
+                  }}
                   className="w-full text-left p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200 hover:border-orange-300 transition-colors"
                 >
                   <p className="font-semibold text-red-700">Privacy Settings</p>

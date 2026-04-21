@@ -14,20 +14,53 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const response = await axios.post('http://localhost:8000/api/auth/login', { username, password });
-      const { access_token, user } = response.data;
-      localStorage.setItem('token', access_token);
+    
+    // Mock authentication for demo accounts
+    const demoUsers = [
+      { username: 'john123', password: 'student123', role: 'student', full_name: 'John Student', email: 'john@akillischool.com' },
+      { username: 'jane456', password: 'student456', role: 'student', full_name: 'Jane Student', email: 'jane@akillischool.com' },
+      { username: 'teacher789', password: 'teacher789', role: 'teacher', full_name: 'Mr. Teacher', email: 'teacher@akillischool.com' },
+      { username: 'educator012', password: 'educator012', role: 'teacher', full_name: 'Ms. Educator', email: 'educator@akillischool.com' },
+      { username: 'admin', password: 'admin123', role: 'admin', full_name: 'System Admin', email: 'admin@akillischool.com' }
+    ];
+
+    const demoUser = demoUsers.find(u => u.username === username && u.password === password);
+    
+    if (demoUser) {
+      // Mock successful login
+      const mockToken = 'mock-jwt-token-' + Date.now();
+      const user = {
+        id: Math.floor(Math.random() * 1000),
+        username: demoUser.username,
+        email: demoUser.email,
+        full_name: demoUser.full_name,
+        role: demoUser.role
+      };
+      
+      localStorage.setItem('token', mockToken);
       localStorage.setItem('user', JSON.stringify(user));
-      toast.success('Login successful');
+      toast.success(`Welcome back, ${user.full_name}!`);
+      
       if (user.role === 'admin') navigate('/admin-dashboard');
       else if (user.role === 'teacher') navigate('/teacher-dashboard');
       else navigate('/student-dashboard');
-    } catch (error) {
-      toast.error(error.response?.data?.detail || 'Invalid username or password');
-    } finally {
-      setLoading(false);
+    } else {
+      // Try backend authentication if not a demo account
+      try {
+        const response = await axios.post('http://localhost:8000/api/auth/login', { username, password });
+        const { access_token, user } = response.data;
+        localStorage.setItem('token', access_token);
+        localStorage.setItem('user', JSON.stringify(user));
+        toast.success('Login successful');
+        if (user.role === 'admin') navigate('/admin-dashboard');
+        else if (user.role === 'teacher') navigate('/teacher-dashboard');
+        else navigate('/student-dashboard');
+      } catch (error) {
+        toast.error('Invalid username or password. Try demo accounts: john123/student123 (student) or teacher789/teacher789 (teacher)');
+      }
     }
+    
+    setLoading(false);
   };
 
   return (
@@ -151,8 +184,10 @@ const Login = () => {
             <div className="space-y-1">
               {[
                 { role: 'Admin', username: 'admin', password: 'admin123' },
-                { role: 'Teacher', username: 'teacher', password: 'teacher123' },
-                { role: 'Student', username: 'student', password: 'student123' },
+                { role: 'Teacher', username: 'teacher789', password: 'teacher789' },
+                { role: 'Teacher', username: 'educator012', password: 'educator012' },
+                { role: 'Student', username: 'john123', password: 'student123' },
+                { role: 'Student', username: 'jane456', password: 'student456' },
               ].map((c, i) => (
                 <div key={i} className="flex items-center justify-between text-xs">
                   <span className="text-gray-500 w-14">{c.role}</span>
