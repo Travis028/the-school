@@ -62,13 +62,13 @@ const StudentDashboard = () => {
         api(token).get('/api/attendance/me'),
         api(token).get('/api/notices/'),
       ]);
-      setProfile(p.data); setGrades(g.data); setAttendances(a.data); setNotices(n.data);
+      setProfile(p.data); setGrades(g.data); setAttendance(a.data); setNotices(n.data);
     } catch { toast.error('Failed to load data'); }
   };
 
-  const presentDays = attendances.filter(a => a.status).length;
-  const absentDays = attendances.length - presentDays;
-  const attendanceRate = attendances.length > 0 ? Math.round((presentDays / attendances.length) * 100) : 0;
+  const presentDays = attendance.filter(a => a.status).length;
+  const absentDays = attendance.length - presentDays;
+  const attendanceRate = attendance.length > 0 ? Math.round((presentDays / attendance.length) * 100) : 0;
   const avgGrade = grades.length > 0
     ? Math.round(grades.reduce((sum, g) => sum + (g.marks_obtained / g.total_marks) * 100, 0) / grades.length)
     : 0;
@@ -107,7 +107,7 @@ const StudentDashboard = () => {
               <p className="text-3xl font-bold text-gray-900 mb-2">{attendanceRate}%</p>
               <p className="text-gray-600 text-sm font-medium mb-1">Attendance Rate</p>
               <p className={`text-xs ${attendanceRate >= 75 ? 'text-green-600' : 'text-red-600'} font-medium`}>
-                {presentDays}/{attendances.length} days present
+                {presentDays}/{attendance.length} days present
               </p>
             </div>
             
@@ -317,7 +317,7 @@ const StudentDashboard = () => {
         <div className="space-y-4">
           <div>
             <h2 className="text-xl font-black text-gray-900">My Attendance</h2>
-            <p className="text-gray-500 text-sm">{presentDays} present out of {attendances.length} school days</p>
+            <p className="text-gray-500 text-sm">{presentDays} present out of {attendance.length} school days</p>
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-white border-t-4 border-green-600 p-4 text-center shadow-sm">
@@ -343,7 +343,7 @@ const StudentDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {attendances.map((a, i) => {
+                {attendance.map((a, i) => {
                   const d = new Date(a.date);
                   return (
                     <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition">
@@ -358,7 +358,7 @@ const StudentDashboard = () => {
                     </tr>
                   );
                 })}
-                {attendances.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">No attendance records yet.</td></tr>}
+                {attendance.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">No attendance records yet.</td></tr>}
               </tbody>
             </table>
           </div>
