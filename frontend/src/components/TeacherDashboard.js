@@ -2,6 +2,24 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import DashboardLayout from './DashboardLayout';
+import { 
+  AcademicCapIcon,
+  BookOpenIcon,
+  CalendarIcon,
+  BellIcon,
+  UserGroupIcon,
+  ChartBarIcon,
+  DocumentTextIcon,
+  ClockIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
+  SparklesIcon,
+  PlusIcon,
+  PencilIcon,
+  TrashIcon
+} from '@heroicons/react/24/outline';
 
 const api = (token) => axios.create({
   baseURL: 'http://localhost:8000',
@@ -9,11 +27,11 @@ const api = (token) => axios.create({
 });
 
 const gradeLetter = (pct) => {
-  if (pct >= 80) return { letter: 'A', color: 'text-green-700', bg: 'bg-green-100' };
-  if (pct >= 70) return { letter: 'B', color: 'text-blue-700', bg: 'bg-blue-100' };
-  if (pct >= 60) return { letter: 'C', color: 'text-yellow-700', bg: 'bg-yellow-100' };
-  if (pct >= 50) return { letter: 'D', color: 'text-orange-700', bg: 'bg-orange-100' };
-  return { letter: 'E', color: 'text-red-700', bg: 'bg-red-100' };
+  if (pct >= 80) return { letter: 'A', color: 'text-green-700', bg: 'bg-gradient-to-r from-green-400 to-emerald-500', text: 'text-white', border: 'border-green-400' };
+  if (pct >= 70) return { letter: 'B', color: 'text-blue-700', bg: 'bg-gradient-to-r from-blue-400 to-cyan-500', text: 'text-white', border: 'border-blue-400' };
+  if (pct >= 60) return { letter: 'C', color: 'text-yellow-700', bg: 'bg-gradient-to-r from-yellow-400 to-orange-500', text: 'text-white', border: 'border-yellow-400' };
+  if (pct >= 50) return { letter: 'D', color: 'text-orange-700', bg: 'bg-gradient-to-r from-orange-400 to-red-500', text: 'text-white', border: 'border-orange-400' };
+  return { letter: 'E', color: 'text-red-700', bg: 'bg-gradient-to-r from-red-400 to-pink-500', text: 'text-white', border: 'border-red-400' };
 };
 
 const TeacherDashboard = () => {
@@ -62,11 +80,11 @@ const TeacherDashboard = () => {
   };
 
   const tabs = [
-    { key: 'dashboard', label: 'Dashboard' },
-    { key: 'students', label: 'Students' },
-    { key: 'grades', label: 'Grades' },
-    { key: 'attendance', label: 'Attendance' },
-    { key: 'notices', label: 'Notices' },
+    { key: 'dashboard', label: 'Dashboard', icon: ChartBarIcon, badge: null },
+    { key: 'students', label: 'Students', icon: UserGroupIcon, badge: students.length > 0 ? students.length : null },
+    { key: 'grades', label: 'Grades', icon: BookOpenIcon, badge: grades.length > 0 ? grades.length : null },
+    { key: 'attendance', label: 'Attendance', icon: CalendarIcon, badge: attendances.length > 0 ? attendances.length : null },
+    { key: 'notices', label: 'Notices', icon: BellIcon, badge: notices.filter(n => !n.read).length || null },
   ];
 
   const presentCount = attendances.filter(a => a.status).length;
@@ -94,23 +112,55 @@ const TeacherDashboard = () => {
 
       {/* Dashboard */}
       {tab === 'dashboard' && (
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-xl font-black text-gray-900">Overview</h2>
-            <p className="text-gray-500 text-sm mt-0.5">Welcome back, {user.full_name}</p>
+        <div className="space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">Teacher Dashboard</h2>
+            <p className="text-gray-600 mt-2">Welcome back, <span className="font-semibold text-blue-600">{user.full_name}</span></p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { label: 'Students', value: students.length, border: 'border-blue-600' },
-              { label: 'Grades Entered', value: grades.length, border: 'border-green-600' },
-              { label: 'Attendance Records', value: attendances.length, border: 'border-purple-600' },
-              { label: 'Notices', value: notices.length, border: 'border-yellow-500' },
-            ].map((s, i) => (
-              <div key={i} className={`bg-white border-t-4 ${s.border} p-4 shadow-sm`}>
-                <p className="text-2xl font-black text-gray-900">{s.value}</p>
-                <p className="text-gray-500 text-xs mt-1">{s.label}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-3xl shadow-xl border-2 border-blue-200 hover:shadow-2xl transition-all duration-300 group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <UserGroupIcon className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-700">Active</span>
               </div>
-            ))}
+              <p className="text-3xl font-bold text-gray-900 mb-2">{students.length}</p>
+              <p className="text-gray-600 text-sm font-medium">Total Students</p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-3xl shadow-xl border-2 border-green-200 hover:shadow-2xl transition-all duration-300 group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <BookOpenIcon className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-green-100 text-green-700">Recorded</span>
+              </div>
+              <p className="text-3xl font-bold text-gray-900 mb-2">{grades.length}</p>
+              <p className="text-gray-600 text-sm font-medium">Grades Entered</p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-3xl shadow-xl border-2 border-purple-200 hover:shadow-2xl transition-all duration-300 group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <CalendarIcon className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-700">Tracked</span>
+              </div>
+              <p className="text-3xl font-bold text-gray-900 mb-2">{attendances.length}</p>
+              <p className="text-gray-600 text-sm font-medium">Attendance Records</p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-3xl shadow-xl border-2 border-yellow-200 hover:shadow-2xl transition-all duration-300 group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <BellIcon className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-yellow-100 text-yellow-700">Posted</span>
+              </div>
+              <p className="text-3xl font-bold text-gray-900 mb-2">{notices.length}</p>
+              <p className="text-gray-600 text-sm font-medium">Notices</p>
+            </div>
           </div>
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="bg-white border border-gray-200 p-5">
