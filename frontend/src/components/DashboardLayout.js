@@ -32,7 +32,7 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
   const RoleIcon = roleIcon[role];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex">
 
       {/* Mobile overlay */}
       {sidebarOpen && (
@@ -42,7 +42,7 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
       {/* Sidebar */}
       <aside className={`fixed top-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900 text-white z-30 flex flex-col shadow-2xl
         transform transition-all duration-300 ease-in-out
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:z-auto
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:z-auto
         ${expanded ? 'w-64' : 'w-20'}`}>
 
         {/* School brand */}
@@ -151,7 +151,7 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
       </aside>
 
       {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${expanded ? 'lg:ml-64' : 'lg:ml-20'}`}>
 
         {/* Top bar */}
         <header className="bg-white/90 backdrop-blur-lg border-b border-gray-200/50 h-20 flex items-center justify-between px-6 sm:px-8 lg:px-12 sticky top-0 z-10 shadow-lg">
@@ -195,7 +195,7 @@ const DashboardLayout = ({ role, tabs, activeTab, onTabChange, children }) => {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-6 sm:p-8 lg:p-12 overflow-auto">
+        <main className="flex-1 p-6 sm:p-8 lg:p-12 overflow-y-auto h-[calc(100vh-5rem)]">
           <div className="max-w-full xl:max-w-8xl mx-auto">
             {children}
           </div>
